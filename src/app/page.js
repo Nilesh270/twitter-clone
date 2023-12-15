@@ -1,11 +1,14 @@
 import React from 'react'
+import Sidebar from '../components/Sidebar'
 
-function page() {
+const page = () => {
   return (
     <div>
-      Hello World
+      <main className=" min-h-screen mx-auto">
+        <Sidebar />
+      </main>
     </div>
-  )
+  );
 }
 
 export default page
