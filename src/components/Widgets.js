@@ -1,30 +1,61 @@
-import { SearchIcon } from '@heroicons/react/outline'
-import React from 'react'
+"use client";
+import { SearchIcon } from "@heroicons/react/outline";
+import React, { useState } from "react";
+import News from "./Widgets/News";
+import Follow from "./Widgets/Follow";
 
-const Widgets = () => {
+const Widgets = ({ newsdata,randomuser }) => {
+  const [articleCnt,setarticleCnt] = useState(3);
+  const [randomUserCnt,setrandomuserCnt]= useState(3);
+
+  const UpdateNewsCnt = () => {
+    setarticleCnt(articleCnt+3);
+  }
+
+  const UpdateRandomUser = () => {
+    setrandomuserCnt(randomUserCnt+3);
+  }
   return (
     <div className="xl:w-[600px] hidden lg:inline ml-8 space-y-5">
-
-    {/* Search Bar */}
+      {/* Search Bar */}
       <div className="w-[90%] xl:w-[75%] sticky top-0 bg-white py-1.5 z-50">
-        <div className="flex items-center p-3 rounded-full  relative">
+        <div className="flex items-center p-3 rounded-full relative">
           <SearchIcon className="h-5 z-50 text-gray-500" />
           <input
-            className="absolute inset-0 rounded-full pl-11 border-gray-500 text-gray-700 focus:shadow-lg focus:bg-white bg-gray-100 "
+            className="absolute inset-0 rounded-full pl-11 border-gray-500 text-gray-700 focus:shadow-lg focus:bg-white bg-gray-100"
             type="text"
             placeholder="Search Twitter"
           />
         </div>
       </div>
 
-    {/* News */}
+      {/* News Section */}
+      <div className="w-[90%] xl:w-[75%] bg-gray-100 rounded-xl text-gray-600 p-2 space-y-3">
+        <h4 className="px-3 font-bold text-xl">What's happening...</h4>
+        {newsdata.slice(0, articleCnt).map((article) => (
+          <News key={article.id} article={article} />
+        ))}
 
+        <button
+          onClick={UpdateNewsCnt}
+          className="text-blue-300 hover:text-blue-400 text-[16px] font-semibold px-4"
+        >
+          Show More
+        </button>
+      </div>
 
-    {/* Who to Follow */}
-    
-
+      {/* Follow Section */}
+      <div className="w-[90%] xl:w-[75%] bg-gray-100 rounded-xl text-gray-600 p-2 space-y-3 sticky top-16">
+        <h4 className="px-3 font-bold text-xl">Whom to Follow</h4>
+        {randomuser.slice(0,randomUserCnt).map((user) => (
+          <Follow user={user} />
+        ))}
+        <button onClick={UpdateRandomUser} className="text-blue-300 hover:text-blue-400 text-[16px] font-semibold px-4">
+          Show More
+        </button>
+      </div>
     </div>
   );
-}
+};
 
-export default Widgets
+export default Widgets;
