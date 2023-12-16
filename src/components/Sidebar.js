@@ -46,9 +46,9 @@ const Sidebar = () => {
       {/* Mini-Profile */}
       <div className="my-auto">
         <div className="hoverEffect text-gray-700 flex items-center justify-center xl:justify-start">
-          <img
-            width={"50%"}
-            height={"50%"}
+          <Image
+            width={"50"}
+            height={"50"}
             src="https://pngimg.com/d/mark_zuckerberg_PNG35.png"
             alt="user-image"
             className="h-10 w-10 rounded-full xl:mr-2"
