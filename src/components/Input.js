@@ -25,7 +25,7 @@ const Input = () => {
           </div>
           <button
             disabled
-            className="bg-blue-400 text-white rounded-full px-4 py-1.5 rounded-full font-bold shadow-md hover:brightness-95 disabled:opacity-50"
+            className="bg-blue-400 text-white rounded-full px-4 py-1.5  font-bold shadow-md hover:brightness-95 disabled:opacity-50"
           >
             Tweet
           </button>
