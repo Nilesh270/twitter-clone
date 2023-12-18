@@ -25,7 +25,7 @@ const Feed = () => {
     },
   ];
   return (
-    <div className="xl:ml-[330px] border-l border-gray-200 border-r xl:min-w-[676px] sm:ml-[70px] flex-grow max-w-[676px] ">
+    <div className="xl:ml-[360px] border-l border-gray-200 border-r xl:min-w-[676px] sm:ml-[70px] flex-grow max-w-[676px] ">
       <div className="flex py-2 px-3 sticky top-0 z-50 bg-white border-b border-gray-200">
         <h2 className="xl:text-lg sm:text-xl font-bold cursor-pointer ">
           Home
