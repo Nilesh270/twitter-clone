@@ -1,6 +1,7 @@
 import React from "react";
 import { PhotographIcon, EmojiHappyIcon } from "@heroicons/react/solid";
 
+
 const Input = () => {
 
 
@@ -24,7 +25,9 @@ const Input = () => {
             <EmojiHappyIcon className="h-10 w-10 p-2  text-sky-300 hoverEffect hover:bg-blue-100" />
           </div>
 
-          <button className="text-white bg-blue-400 font-bold rounded-full px-6 py-1.5 shadow-md hover:brightness-95">Tweet</button>
+          <button className="text-white bg-blue-400 font-bold rounded-full px-6 py-1.5 shadow-md hover:brightness-95">
+            Tweet
+          </button>
         </div>
       </div>
     </div>

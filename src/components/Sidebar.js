@@ -13,7 +13,7 @@ import {
   UserIcon,
 } from "@heroicons/react/outline";
 
-const Sidebar = () => {
+const Sidebar = ({user}) => {
   return (
     <div className="hidden sm:flex flex-col p-2 xl:items-start fixed h-full xl:ml-24">
       <div className="hoverEffect p-0 hover:bg-blue-100 xl:px-1">
@@ -27,12 +27,16 @@ const Sidebar = () => {
       <div className="mt-4 mb-2.5 xl:items-start">
         <SideBarMenuItem text="Home" Icon={HomeIcon} active />
         <SideBarMenuItem text="Explore" Icon={HashtagIcon} />
-        <SideBarMenuItem text="Notifications" Icon={BellIcon} />
-        <SideBarMenuItem text="Messages" Icon={InboxIcon} />
-        <SideBarMenuItem text="Bookmarks" Icon={BookmarkIcon} />
-        <SideBarMenuItem text="Lists" Icon={ClipboardIcon} />
-        <SideBarMenuItem text="Profile" Icon={UserIcon} />
-        <SideBarMenuItem text="More" Icon={DotsCircleHorizontalIcon} />
+        {user && (
+          <>
+            <SideBarMenuItem text="Notifications" Icon={BellIcon} />
+            <SideBarMenuItem text="Messages" Icon={InboxIcon} />
+            <SideBarMenuItem text="Bookmarks" Icon={BookmarkIcon} />
+            <SideBarMenuItem text="Lists" Icon={ClipboardIcon} />
+            <SideBarMenuItem text="Profile" Icon={UserIcon} />
+            <SideBarMenuItem text="More" Icon={DotsCircleHorizontalIcon} />
+          </>
+        )}
       </div>
 
       <button className=" text-white bg-blue-400 rounded-full w-52 h-12 font-bold shadow-md hover:brightness-95  text-lg hidden xl:inline ">

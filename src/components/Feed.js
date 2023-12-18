@@ -3,6 +3,7 @@ import React from 'react'
 import Input from './Feed/Input';
 import Post from './Feed/Post';
 
+
 const Feed = () => {
       const data = [
         {

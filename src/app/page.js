@@ -1,7 +1,10 @@
 import React from "react";
-import Sidebar from "../components/Sidebar";
-import Feed from "../components/Feed";
+import Sidebar from "@/components/Sidebar";
+import Feed from "@/components/Feed";
 import Widgets from "@/components/Widgets";
+import { options } from "./api/auth/[...nextauth]/options";
+import { getServerSession } from "next-auth";
+import Home from "@/components/Home";
 
 async function getData() {
   try {
@@ -31,18 +34,28 @@ async function getData() {
 
 export default async function page() {
   const data = await getData();
-  // console.log(data.randomUserData.results);
-
+  const session = await getServerSession(options);
   return (
-    <div>
-      <main className="flex min-h-screen mx-auto">
-        <Sidebar />
-        <Feed />
-        <Widgets
-          newsdata={data.newsData.articles}
-          randomuser={data.randomUserData.results}
-        />
-      </main>
-    </div>
+    <>
+      {session ? (
+        <main className="flex min-h-screen mx-auto">
+          <Sidebar user={session?.user} />
+          <Feed />
+          <Widgets
+            newsdata={data.newsData.articles}
+            randomuser={data.randomUserData.results}
+          />
+        </main>
+      ) : (
+        <main className="flex min-h-screen mx-auto">
+          <Sidebar/>
+          <Feed />
+          <Widgets
+            newsdata={data.newsData.articles}
+            randomuser={data.randomUserData.results}
+          />
+        </main>
+      )}
+    </>
   );
 }
