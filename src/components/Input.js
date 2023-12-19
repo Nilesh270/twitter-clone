@@ -1,6 +1,10 @@
+"use client";
 import { EmojiHappyIcon, PhotographIcon } from "@heroicons/react/outline";
 import Image from "next/image";
+import { useSession } from "next-auth/react";
 const Input = () => {
+  const { data: session } = useSession();
+  console.log(session);
   return (
     <div className="flex border-b border-gray-200 p-3 space-x-3">
       <Image
