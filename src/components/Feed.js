@@ -1,7 +1,12 @@
 import { SparklesIcon } from "@heroicons/react/outline";
 import Input from "./Input";
 import Post from "./Post";
+import { useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
+import SignOutButton from "./SignOutButton";
 const Feed = () => {
+  // const { data: session } = useSession();
+  // const user = session?.user;
   const posts = [
     {
       id: 1,
