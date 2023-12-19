@@ -4,7 +4,7 @@ import Feed from "@/components/Feed";
 import Widgets from "@/components/Widgets";
 import { options } from "./api/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";
-import Home from "@/components/Home";
+
 
 async function getData() {
   try {
@@ -37,25 +37,14 @@ export default async function page() {
   const session = await getServerSession(options);
   return (
     <>
-      {session ? (
         <main className="flex min-h-screen mx-auto">
-          <Sidebar user={session?.user} />
+          <Sidebar  />
           <Feed />
           <Widgets
             newsdata={data.newsData.articles}
             randomuser={data.randomUserData.results}
           />
         </main>
-      ) : (
-        <main className="flex min-h-screen mx-auto">
-          <Sidebar/>
-          <Feed />
-          <Widgets
-            newsdata={data.newsData.articles}
-            randomuser={data.randomUserData.results}
-          />
-        </main>
-      )}
     </>
   );
 }

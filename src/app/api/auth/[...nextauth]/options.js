@@ -11,4 +11,7 @@ export const options = {
   ],
   secret: process.env.NEXTAUTH_SECRET,
   logger: { level: "debug" },
+  // pages: {
+  //   signIn: "/auth/signin",
+  // },
 };

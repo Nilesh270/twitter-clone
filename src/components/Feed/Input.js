@@ -2,14 +2,14 @@ import React from "react";
 import { PhotographIcon, EmojiHappyIcon } from "@heroicons/react/solid";
 
 
-const Input = () => {
+const Input = ({user}) => {
 
 
   return (
     <div className="flex border-b border-gray-200 p-3 space-x-3">
       <img
         className="h-12 w-12 rounded-full cursor-pointer hover:brightness-95"
-        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwQQTS4NPqnCGbJPd4x7O_YJNOJ5gH6KkejH3nhVfIhxwwJPHEotjPs0VCpGg-UcybvxM&usqp=CAU"
+        src={user.image}
       ></img>
       <div className="flex-col w-full divide-y divide-gray-200">
         <div className="">

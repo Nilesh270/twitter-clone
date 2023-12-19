@@ -1,10 +1,15 @@
+"use client"
 import { SparklesIcon } from '@heroicons/react/solid';
 import React from 'react'
 import Input from './Feed/Input';
 import Post from './Feed/Post';
+import { useSession, signIn, signOut } from "next-auth/react";
+
 
 
 const Feed = () => {
+        const { data: session } = useSession();
+        const user = session?.user;
       const data = [
         {
           id: 1,
@@ -33,15 +38,12 @@ const Feed = () => {
           <SparklesIcon className="h-5 " />
         </div>
       </div>
-      <Input/>
+      {user && <Input user={user}/>}
 
       {/* post page */}
-      {
-        data.map((post)=>(
-          <Post key={post.id} post={post}/>
-        ))
-      }
-
+      {data.map((post) => (
+        <Post key={post.id} post={post} />
+      ))}
     </div>
   );
 }
