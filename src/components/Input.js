@@ -1,11 +1,65 @@
 "use client";
-import { EmojiHappyIcon, PhotographIcon } from "@heroicons/react/outline";
-import Image from "next/image";
+import {
+  EmojiHappyIcon,
+  PhotographIcon,
+  XIcon,
+} from "@heroicons/react/outline";
 import { useSession, signOut } from "next-auth/react";
+import { useState, useRef } from "react";
+import {
+  addDoc,
+  collection,
+  serverTimestamp,
+  updateDoc,
+  doc,
+} from "firebase/firestore";
+import { db, storage } from "../../firebase";
+import { getDownloadURL, ref, uploadString } from "firebase/storage";
 const Input = () => {
   const { data: session } = useSession();
-  const user = session ? session.user : null;
   console.log(session);
+  const [tweet, setTweet] = useState("");
+  const filePickerRef = useRef(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const user = session ? session.user : null;
+
+  const sendPost = async () => {
+    if (loading) return;
+    setLoading(true);
+    const docRef = await addDoc(collection(db, "posts"), {
+      id: session.user.uid,
+      text: tweet,
+      userImg: session.user?.image,
+      timestamp: serverTimestamp(),
+      name: session.user?.name,
+      username: session.user?.username,
+      // image: null,
+    });
+    if (selectedFile) {
+      const imageRef = ref(storage, `posts/${docRef.id}/image`);
+      await uploadString(imageRef, selectedFile, "data_url").then(async () => {
+        const downloadURL = await getDownloadURL(imageRef);
+        await updateDoc(doc(db, "posts", docRef.id), {
+          image: downloadURL,
+        });
+      });
+    }
+    setTweet("");
+    setSelectedFile(null);
+    setLoading(false);
+  };
+
+  const addImageToPosts = (e) => {
+    const reader = new FileReader();
+    if (e.target.files[0]) {
+      reader.readAsDataURL(e.target.files[0]);
+      reader.onload = (readerEvent) => {
+        setSelectedFile(readerEvent.target.result);
+      };
+    }
+  };
+
   return (
     <>
       {user && (
@@ -13,7 +67,7 @@ const Input = () => {
           <img
             onClick={signOut}
             src={
-              session.user?.image ||
+              user?.image ||
               "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"
             }
             alt="Profile-ICon"
@@ -26,20 +80,57 @@ const Input = () => {
               <textarea
                 rows="2"
                 placeholder="What's happening?"
-                className="w-full focus:ring-0 border-none placeholder-gray-700 text-lg tracking-wide text-gray-700 min-h-[100px] "
+                className="w-full focus:ring-0 border-none placeholder-gray-700 text-lg tracking-wide text-gray-700 min-h-[10px]  "
+                value={tweet}
+                onChange={(e) => {
+                  setTweet(e.target.value);
+                }}
               ></textarea>
             </div>
-            <div className="flex items-center justify-between pt-2.5">
-              <div className="flex">
-                <PhotographIcon className="h-10 w-10 hoverEffect p-2 text-sky-500 hover:bg-sky-50" />
-                <EmojiHappyIcon className="h-10 w-10 hoverEffect p-2 text-sky-500 hover:bg-sky-50" />
+            {selectedFile && (
+              <div className="relative py-5">
+                <XIcon
+                  onClick={() => {
+                    setSelectedFile(null);
+                  }}
+                  className="h-7 bg-white absolute cursor-pointer shadow-sm shadow-white"
+                />
+                <img
+                  src={selectedFile}
+                  alt="post-image"
+                  className={`${loading && "animate-pulse"} h-72 `}
+                />
               </div>
-              <button
-                disabled
-                className="bg-blue-400 text-white rounded-full px-4 py-1.5  font-bold shadow-md hover:brightness-95 disabled:opacity-50"
-              >
-                Tweet
-              </button>
+            )}
+            <div className="flex items-center justify-between pt-2.5">
+              {!loading && (
+                <>
+                  <div className="flex">
+                    <div
+                      className=""
+                      onClick={() => {
+                        filePickerRef.current.click();
+                      }}
+                    >
+                      <PhotographIcon className="h-10 w-10 hoverEffect p-2 text-sky-500 hover:bg-sky-50" />
+                      <input
+                        type="file"
+                        className="hidden"
+                        ref={filePickerRef}
+                        onChange={addImageToPosts}
+                      />
+                    </div>
+                    <EmojiHappyIcon className="h-10 w-10 hoverEffect p-2 text-sky-500 hover:bg-sky-50" />
+                  </div>
+                  <button
+                    disabled={!tweet.trim()}
+                    onClick={sendPost}
+                    className="bg-blue-400 text-white rounded-full px-4 py-1.5  font-bold shadow-md hover:brightness-95 disabled:opacity-50"
+                  >
+                    Tweet
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </div>
