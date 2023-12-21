@@ -17,11 +17,7 @@ const Feed = () => {
          const unsubscribe = onSnapshot(
            query(collection(db, "posts"), orderBy("timestamp", "desc")),
            (snapshot) => {
-             const postData = snapshot.docs.map((doc) => ({
-               id: doc.id,
-               ...doc.data(),
-             }));
-             setPosts(postData);
+             setPosts(snapshot.docs);
            }
          );
 
@@ -29,7 +25,6 @@ const Feed = () => {
          return () => unsubscribe();
        }, []);
 
-       console.log(posts);
 
   return (
     <div className="xl:ml-[370px] border-l border-r border-gray-200  xl:min-w-[650px] sm:ml-[73px] flex-grow max-w-xl">
@@ -43,7 +38,7 @@ const Feed = () => {
 
       {/* post page */}
       {posts.map((post) => (
-        <Post key={post.id} post={post} />
+        <Post key={post.id} id={post.id} post={post} />
       ))}
     </div>
   );
