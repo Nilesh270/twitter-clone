@@ -8,7 +8,7 @@ import { DotsHorizontalIcon } from "@heroicons/react/solid";
 import React from "react";
 
 const Post = ({ post }) => {
-  return (
+  return (  
     <div className="flex p-3 cursor-pointer border-b border-gray-200">
       <img className="h-12 w-12 rounded mr-4" src={post.img}></img>
 
