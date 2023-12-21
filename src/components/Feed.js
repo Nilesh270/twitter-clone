@@ -14,13 +14,22 @@ const Feed = () => {
       const user = session?.user;
        const [posts, setPosts] = useState([]);
        useEffect(() => {
-         return  onSnapshot(
+         const unsubscribe = onSnapshot(
            query(collection(db, "posts"), orderBy("timestamp", "desc")),
            (snapshot) => {
-             setPosts(snapshot.docs);
+             const postData = snapshot.docs.map((doc) => ({
+               id: doc.id,
+               ...doc.data(),
+             }));
+             setPosts(postData);
            }
          );
+
+         // Clean up the listener when the component unmounts
+         return () => unsubscribe();
        }, []);
+
+       console.log(posts);
 
   return (
     <div className="xl:ml-[370px] border-l border-r border-gray-200  xl:min-w-[650px] sm:ml-[73px] flex-grow max-w-xl">
