@@ -1,10 +1,9 @@
 "use client";
-import {
-  EmojiHappyIcon,
-  PhotographIcon,
-  XIcon,
-} from "@heroicons/react/outline";
+import { EmojiHappyIcon, PhotographIcon } from "@heroicons/react/outline";
+import { XIcon } from "@heroicons/react/solid";
 import { useSession, signOut } from "next-auth/react";
+// import data from "@emoji-mart/data";
+// import Picker from "@emoji-mart/react";
 import { useState, useRef } from "react";
 import {
   addDoc,
@@ -17,11 +16,12 @@ import { db, storage } from "../../firebase";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 const Input = () => {
   const { data: session } = useSession();
-  console.log(session);
+  // console.log(session);
   const [tweet, setTweet] = useState("");
   const filePickerRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [loading, setLoading] = useState(false);
+  // const [emoji, setEmoji] = useState(false);
   const user = session ? session.user : null;
 
   const sendPost = async () => {
@@ -93,7 +93,7 @@ const Input = () => {
                   onClick={() => {
                     setSelectedFile(null);
                   }}
-                  className="h-7 bg-white absolute cursor-pointer shadow-sm shadow-white"
+                  className="h-8  border-[3px] m-1 text-black font-bold rounded-full absolute cursor-pointer border-white"
                 />
                 <img
                   src={selectedFile}
@@ -120,7 +120,15 @@ const Input = () => {
                         onChange={addImageToPosts}
                       />
                     </div>
-                    <EmojiHappyIcon className="h-10 w-10 hoverEffect p-2 text-sky-500 hover:bg-sky-50" />
+                    <div className="relative">
+                      <EmojiHappyIcon className="h-10 w-10 hoverEffect p-2 text-sky-500 hover:bg-sky-50" />
+                      {/* <Picker
+                        data={data}
+                        emojiSize={20}
+                        emojiButtonSize={28}
+                        className="absolute top-[50%]"
+                      /> */}
+                    </div>
                   </div>
                   <button
                     disabled={!tweet.trim()}
@@ -135,6 +143,16 @@ const Input = () => {
           </div>
         </div>
       )}
+      {/* {emoji && (
+        <div className="relative">
+          <Picker
+            data={data}
+            emojiSize={20}
+            emojiButtonSize={28}
+            className="absolute left-[50%]"
+          />
+        </div>
+      )} */}
     </>
   );
 };

@@ -7,15 +7,16 @@ import {
 } from "@heroicons/react/outline";
 import { ChatIcon } from "@heroicons/react/outline";
 import Image from "next/image";
+import Moment from "react-moment";
 const Post = ({ post }) => {
   return (
     <div className="flex cursor-pointer p-3 border-b border-gray-200 pr-6">
       {/*Image*/}
-      <Image
+      <img
         width={"50"}
         height={"50"}
         className="h-11 w-11 rounded-full mr-4 hover:brightness-95"
-        src={post.userImg}
+        src={post.data().userImg}
         alt="user-image"
       />
       {/* Right side */}
@@ -25,13 +26,15 @@ const Post = ({ post }) => {
           {/*  user info*/}
           <div className="flex items-center space-x-3 whitespace-nowrap">
             <h4 className="font-bold text-[15px] sm:text-[16px] hover:underline">
-              {post.name}
+              {post.data().name}
             </h4>
             <span className="text-sm text-[14px] sm:text-[15px] text-gray-700">
-              @{post.username}
+              @{post.data().username}
             </span>
             <span className="text-sm text-[14px] sm:text-[15px] hover:underline text-gray-400">
-              -{post.timestamp}
+              <Moment format="Do MMMM h:mma">
+                {new Date(post.data().timestamp.seconds * 1000)}
+              </Moment>
             </span>
           </div>
           {/* Icon */}
@@ -39,14 +42,14 @@ const Post = ({ post }) => {
         </div>
         {/* Post text */}
         <p className="text-gray-800 text-[15px] sm:text-[16px] mb-2">
-          {post.text}
+          {post.data().text}
         </p>
         {/* Post Image */}
-        <Image
+        <img
           className="h-[100 em] w-full rounded-2xl hover:brightness-105"
           width="10000"
           height="1000"
-          src={post.img}
+          src={post.data().image}
           alt="post-iamge"
         />
         {/* icons */}
