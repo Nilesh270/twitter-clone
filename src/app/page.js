@@ -5,6 +5,7 @@ import Feed from "@/components/Feed";
 import Widgets from "@/components/Widgets";
 import { options } from "./api/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";
+import CommentModal from "@/components/CommentModal";
 
 
 async function getData() {
@@ -38,13 +39,14 @@ export default async function page() {
   const session = await getServerSession(options);
   return (
     <>
-        <main className="flex min-h-screen mx-auto">
+        <main className="flex min-h-screen mx-auto ml-20">
           <Sidebar  />
           <Feed />
           <Widgets
             newsdata={data.newsData.articles}
             randomuser={data.randomUserData.results}
           />
+          <CommentModal/>
         </main>
     </>
   );
